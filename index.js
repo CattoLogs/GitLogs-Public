@@ -1,7 +1,6 @@
 require("dotenv").config();
 
-const fs = require("node:fs"),
-    path = require("node:path")
+const fs = require("node:fs")
 
 const express = require('express'),
     app = express(),
@@ -9,10 +8,29 @@ const express = require('express'),
 
 app.use(bodyParser.json());
 
-const { push, repository_edited, member_added, create, repository_unarchived, repository_archived, repository_deleted, repository_created, member_invited, releasePublished, issueReopened, issueEdited, issueClosed, issueCreated, verifyGithubPayload } = require('./Utils.js');
+const {
+    push,
+    repository_edited,
+    member_added,
+    create,
+    repository_unarchived,
+    repository_archived,
+    repository_deleted,
+    repository_created,
+    member_invited,
+    releasePublished,
+    issueReopened,
+    issueEdited,
+    issueClosed,
+    issueCreated,
+    verifyGithubPayload
+} = require('./Utils.js');
 
 
-const { WebhookClient, MessageEmbed } = require("discord.js"),
+const {
+    WebhookClient,
+    MessageEmbed
+} = require("discord.js"),
     githubclient = new WebhookClient({ url: process.env.webhook })
 
 app.post("/github", verifyGithubPayload, async (req, res) => {

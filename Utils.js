@@ -1,5 +1,7 @@
 const crypto = require('crypto')
-const {MessageEmbed} = require('discord.js')
+const {
+    MessageEmbed
+} = require('discord.js')
 
 
 /**
@@ -7,7 +9,10 @@ const {MessageEmbed} = require('discord.js')
  * @param {Object} body 
  */
 const issueReopened = async (embed, body) => {
-    const { issue } = body
+    const {
+        issue
+    } = body
+
     let embedS = embed
     .setAuthor({ name: issue.user.login, iconURL: issue.user.avatar_url, url: issue.user.html_url })
     .setTitle(`Issue Reopened: ${issue.title}`)
@@ -25,7 +30,10 @@ const issueReopened = async (embed, body) => {
  * @param {Object} body 
  */
 const issueEdited = async (embed, body) => {
-    const { issue, changes } = body
+    const {
+        issue,
+        changes
+    } = body
 
     let embedS = embed
     .setAuthor({ name: issue.user.login, iconURL: issue.user.avatar_url, url: issue.user.html_url })
@@ -54,7 +62,10 @@ const issueEdited = async (embed, body) => {
  * @param {Object} body 
  */
 const issueClosed = async (embed, body) => {
-    const { issue } = body
+    const {
+        issue
+    } = body
+
     let embedS = embed
     .setAuthor({ name: issue.user.login, iconURL: issue.user.avatar_url, url: issue.user.html_url })
     .setTitle(`Issue Closed: ${issue.title}`)
@@ -62,6 +73,7 @@ const issueClosed = async (embed, body) => {
     .setColor("RED")
     .setFooter({ text: `Closed` })
     .setTimestamp(issue.closed_at)
+
     return embedS
 }
 
@@ -70,7 +82,10 @@ const issueClosed = async (embed, body) => {
  * @param {Object} body 
  */
 const issueCreated = async (embed, body) => {
-    const { issue } = body
+    const {
+        issue
+    } = body
+
     let embedS = embed
     .setAuthor({ name: issue.user.login, iconURL: issue.user.avatar_url, url: issue.user.html_url })
     .setTitle(`Issue Created #${issue.number}: ${issue.title}`)
@@ -79,6 +94,7 @@ const issueCreated = async (embed, body) => {
     .setColor("ORANGE")
     .setFooter({ text: `Created` })
     .setTimestamp(issue.created_at)
+
     return embedS
 }
 
@@ -87,7 +103,10 @@ const issueCreated = async (embed, body) => {
  * @param {Object} body 
  */
 const releasePublished = async (embed, body) => {
-    const { release } = body
+    const {
+        release
+    } = body
+
     let embedS = embed
     .setAuthor({ name: release.author.login, iconURL: release.author.avatar_url, url: release.author.html_url })
     .setTitle(`Release Published: ${release.name}`)
@@ -96,6 +115,7 @@ const releasePublished = async (embed, body) => {
     .setColor("GREEN")
     .setFooter({ text: `Published` })
     .setTimestamp(release.published_at)
+
     return embedS
 }
 
@@ -104,7 +124,14 @@ const releasePublished = async (embed, body) => {
  * @param {Object} body 
  */
 const push = async (embed, body) => {
-    const { repository, ref, commits, sender, compare } = body
+    const {
+        repository,
+        ref,
+        commits,
+        sender,
+        compare
+    } = body
+
     let embedS = embed
     .setAuthor({ name: sender.login, iconURL: sender.avatar_url, url: sender.html_url })
     .setTitle(`Push to ${ref.split("/")[2]} | ${commits.length} New ${commits.length > 1 ? "Commits" : "Commit"}`)
@@ -113,6 +140,7 @@ const push = async (embed, body) => {
     .setColor("BLUE")
     .setFooter({ text: `Pushed` })
     .setTimestamp(commits[0].timestamp)
+
     return embedS
 }
 
@@ -121,7 +149,11 @@ const push = async (embed, body) => {
  * @param {Object} body 
  */
 const member_invited = async (embed, body) => {
-    const { invitation, sender, organization } = body
+    const {
+        invitation,
+        sender,
+        organization
+    } = body
 
     let embedS = embed
         .setAuthor({ name: sender.login, iconURL: sender.avatar_url, url: sender.html_url })
@@ -131,6 +163,7 @@ const member_invited = async (embed, body) => {
         .setColor("YELLOW")
         .setFooter({ text: `Invited` })
         .setTimestamp(invitation.created_at)
+
     return embedS
 }
 
@@ -139,13 +172,25 @@ const member_invited = async (embed, body) => {
  * @param {Object} body 
  */
 const repository_unarchived = async (embed, body) => {
-    const { repository, sender } = body
+    const {
+        repository,
+        sender
+    } = body
+
     const embedS = embed
         
 }
 
+/**
+ * @param {MessageEmbed} embed 
+ * @param {Object} body 
+ */
 const repository_created = async (embed, body) => {
-    const { repository, sender } = body
+    const {
+        repository,
+        sender
+    } = body
+
     let embedS = embed
         .setAuthor({ name: sender.login, iconURL: sender.avatar_url, url: sender.html_url })
         .setTitle(`Repository Created: ${repository.name}`)
@@ -154,6 +199,7 @@ const repository_created = async (embed, body) => {
         .setColor("GREEN")
         .setFooter({ text: `Created` })
         .setTimestamp(repository.created_at)
+
     return embedS
 }
 
@@ -171,7 +217,10 @@ const _compareSignatures = (signature, comparison_signature) => {
 }
 
 const verifyGithubPayload = (req, res, next) => {
-    const { headers, body } = req
+    const {
+        headers,
+        body
+    } = req
 
     const signature = headers['x-hub-signature']
     const comparison_signature = _createComparisonSignature(body)
@@ -179,7 +228,12 @@ const verifyGithubPayload = (req, res, next) => {
     if (!_compareSignatures(signature, comparison_signature)) {
         return res.status(401).send('Mismatched signatures')
     }
-    const { action, ...payload } = body
+
+    const {
+        action,
+        ...payload
+    } = body
+
     req.event_type = headers['x-github-event']
     req.action = action
     req.payload = payload
@@ -206,3 +260,4 @@ function _shortner(text) {
         return text ? text : "No description"
     }
 }
+
