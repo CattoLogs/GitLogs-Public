@@ -10,12 +10,12 @@ app.use(bodyParser.json());
 
 const {
     push,
-    repository_edited,
-    member_added,
-    create,
-    repository_unarchived,
-    repository_archived,
-    repository_deleted,
+    repository_edited, // Not Finished
+    member_added, // Not Finished
+    create, // Not Finished
+    repository_unarchived, // Not Finished
+    repository_archived, // Not Finished
+    repository_deleted, // Not Finished
     repository_created,
     member_invited,
     releasePublished,
@@ -40,31 +40,27 @@ app.post("/github", verifyGithubPayload, async (req, res) => {
         const event = req.headers['x-github-event'],
             eventName = `${event}${req.body.action ? "-" + req.body.action : ""}`;
 
-        fs.writeFileSync(`./Events/github-${eventName}.json`, JSON.stringify(req.body, null, 4));
-
-
-        const eventData = {
-            "issues-reopened": issueReopened,
-            "issues-edited": issueEdited,
-            "issues-closed": issueClosed,
-            "issues-opened": issueCreated,
-            "release-published": releasePublished,
-            "push": push,
-           // "create": create,
-            "organization-member_invited": member_invited,
-           // "organization-member_added": member_added,
-            "repository-created": repository_created,
-            // "repository-deleted": repository_deleted,
-            // "repository-archived": repository_archived,
-            // "repository-unarchived": repository_unarchived,
-        }
-
-        let embed = new MessageEmbed();
-        if (eventData[eventName]) {
-            embed = await eventData[eventName](embed, req.body);
-        } else {
-            //embed.setTitle(`${event}`).setDescription(`Debug:\nNo function for \`${eventName}\``).setColor("RED");
-            return res.status(200).send("No function for " + eventName);
+            const eventData = {
+                "issues-reopened": issueReopened,
+                "issues-edited": issueEdited,
+                "issues-closed": issueClosed,
+                "issues-opened": issueCreated,
+                "release-published": releasePublished,
+                "push": push,
+                "organization-member_invited": member_invited,
+                "repository-created": repository_created,
+            }
+            
+            let embed = new MessageEmbed();
+            if (eventData[eventName]) {
+                embed = await eventData[eventName](embed, req.body);
+            } else {
+                if(process.env.debug) {
+                fs.writeFileSync(`./Events/github-${eventName}.json`, JSON.stringify(req.body, null, 4));
+                embed.setTitle(`${event}`).setDescription(`Debug:\nNo function for \`${eventName}\``).setColor("RED");
+            } else {
+                return res.status(200).send("No function for " + eventName);
+            }
         }
 
         githubclient.send({
@@ -82,5 +78,5 @@ app.post("/github", verifyGithubPayload, async (req, res) => {
 })
 
 app.listen(process.env.port, () => {
-    console.log('listening on port ' + process.env.port);
+    console.log(`Listening on port ${process.env.port} ${process.env.debug ? "(Debug Mode)" : ""}`);
 })

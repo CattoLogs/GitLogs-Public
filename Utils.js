@@ -205,7 +205,7 @@ const repository_created = async (embed, body) => {
 
 
 const _createComparisonSignature = (body) => {
-    const hmac = crypto.createHmac('sha1', process.env.SECRET)
+    const hmac = crypto.createHmac('sha1', process.env.secret)
     const self_signature = hmac.update(JSON.stringify(body)).digest('hex')
     return `sha1=${self_signature}`
 }
