@@ -21,3 +21,10 @@ node .
 6) Click send me everything (or pick what you would like)
 
 Then you should be done :D It should start sending the embeds :)
+
+
+# ToDo
+- [ ] Better Embeds
+- [ ] More Events
+- [ ] Console Logging
+- [ ] Whitelist/Blacklist events JSON file
