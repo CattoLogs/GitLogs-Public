@@ -54,7 +54,7 @@ app.post("/github", verifyGithubPayload, async (req, res) => {
 
         if (edata) {
             embed = await edata(embed, req.body);
-        } else if (process.env.debug) {
+        } else if (process.env.debug == "true") {
             if (!fs.existsSync("./Debug")) throw Error("No Debug folder found")
 
             fs.writeFileSync(`./Debug/github-${eventName}.json`, JSON.stringify(req.body, null, 4));
@@ -91,5 +91,6 @@ app.post("/github", verifyGithubPayload, async (req, res) => {
 })
 
 app.listen(process.env.port, () => {
-    console.log(`${chalk.green("[GitLogs]")} Listening on port ${process.env.port} ${process.env.debug ? chalk.yellow("(Debug) Enabled") : ""}`);
+    console.log(`${chalk.green("[GitLogs]")} Listening on port ${process.env.port} `);
+    if(process.env.debug == "true") console.log(`${chalk.yellow("[GitLogs]")} Debug mode is on`);
 })
