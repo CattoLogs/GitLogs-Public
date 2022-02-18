@@ -1,8 +1,34 @@
 {
-  "dependencies": {
-    "body-parser": "^1.19.1",
-    "discord.js": "^13.6.0",
-    "dotenv": "^16.0.0",
-    "express": "^4.17.2"
-  }
+    "dependencies": {
+        "body-parser": "^1.19.1",
+        "chalk": "^4.1.2",
+        "discord.js": "^13.6.0",
+        "dotenv": "^16.0.0",
+        "express": "^4.17.2"
+    },
+    "name": "gitlogs",
+    "description": "Git Logs is a Simple Github Webhook logger for Discord",
+    "version": "1.0.3",
+    "main": "src/index.js",
+    "devDependencies": {},
+    "scripts": {
+        "start": "node src/index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/CattoLogs/GitLogs-Public.git"
+    },
+    "keywords": [
+        "github",
+        "logs",
+        "discord",
+        "webhook",
+        "github-webhooks"
+    ],
+    "author": "DarkerInk",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/CattoLogs/GitLogs-Public/issues"
+    },
+    "homepage": "https://github.com/CattoLogs/GitLogs-Public#readme"
 }

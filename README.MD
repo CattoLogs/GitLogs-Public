@@ -28,3 +28,4 @@ Then you should be done :D It should start sending the embeds :)
 - [ ] More Events
 - [ ] Console Logging
 - [ ] Whitelist/Blacklist events JSON file
+- [ ] Add Comments
