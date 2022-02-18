@@ -1,0 +1,14 @@
+{
+	"extends": "../tsconfig.base.json",
+	"compilerOptions": {
+		"rootDir": ".",
+		"baseUrl": ".",
+		"outDir": "../dist",
+		"composite": true,
+		"paths": {
+			"#lib/*": ["./lib/*.ts"],
+			"#utils/*": ["./lib/utils/*.ts"],
+			"#types/*": ["./lib/types/index.ts"]
+		}
+	}
+}
