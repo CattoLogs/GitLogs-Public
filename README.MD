@@ -24,8 +24,9 @@ Then you should be done :D It should start sending the embeds :)
 
 
 # ToDo
+- [x] More Events
+- [x] Console Logging
 - [ ] Better Embeds
-- [ ] More Events
-- [ ] Console Logging
 - [ ] Whitelist/Blacklist events JSON file
 - [ ] Add Comments
+- [ ] All Events

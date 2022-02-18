@@ -1,4 +1,6 @@
 const crypto = require('crypto')
+const chalk = require('chalk')
+
 const _createComparisonSignature = (body) => {
     const hmac = crypto.createHmac('sha1', process.env.secret)
     const self_signature = hmac.update(JSON.stringify(body)).digest('hex')
@@ -21,6 +23,7 @@ const verifyGithubPayload = (req, res, next) => {
     const comparison_signature = _createComparisonSignature(body)
 
     if (!_compareSignatures(signature, comparison_signature)) {
+        console.log(`${chalk.red("[Github]")} Invalid signature ${chalk.yellow(signature)}`)
         return res.status(401).send('Mismatched signatures')
     }
 
@@ -29,6 +32,7 @@ const verifyGithubPayload = (req, res, next) => {
         ...payload
     } = body
 
+    console.log(`${chalk.green("[Github]")} Valid signature.`)
     req.event_type = headers['x-github-event']
     req.action = action
     req.payload = payload
