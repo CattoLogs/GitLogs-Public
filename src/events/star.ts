@@ -6,8 +6,7 @@ import { createEmbed } from '#utils/util';
 export default {
 	name: 'star',
 	run: (req: FastifyRequest, res: FastifyReply, client: WebhookClient) => {
-		const body = req.body as StarBody;
-		const { action, repository, sender } = body;
+		const { action, repository, sender } = req.body as StarBody;
 		const author = { name: sender.login, iconURL: sender.avatar_url, url: sender.html_url };
 
 		if (action === 'created') {

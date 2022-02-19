@@ -21,14 +21,17 @@ app.post('/github', async (req, res) => {
 	const githubEvent = req.headers['x-github-event'];
 	const responseHeaders = { 'x-powered-by': 'CattoLogs', 'user-agent': 'CattoLogs https://github.com/CattoLogs/GitLogs-Public' };
 
+	if (Boolean(process.env.DEBUG)) app.log.info(`Recieved event ${githubEvent}, action ${(req.body as any).action}`);
 	try {
 		const event = client.events.get(githubEvent as string);
 		if (event) {
 			event.run(req, res, client);
+			return res.status(204);
 		}
 
 		return res.headers(responseHeaders).status(404);
 	} catch (err) {
+		console.log(err);
 		return res
 			.headers(responseHeaders)
 			.status(500)
