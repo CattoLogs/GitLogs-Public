@@ -1,0 +1,4 @@
+{
+	"extends": "@sapphire/eslint-config",
+	"include": ["src"]
+}

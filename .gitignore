@@ -1,4 +1,4 @@
-.env
-node_modules
-package-lock.json
-Debug
+node_modules/
+dist/
+*.env*
+*.gz
